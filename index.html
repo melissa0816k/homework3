@@ -8,6 +8,111 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<title> Child Abuse </title>
+		<script>
+		(function() {
+  'use strict'
+
+  var $ = window.jQuery
+  var Waypoint = window.Waypoint
+
+  /* http://imakewebthings.com/waypoints/shortcuts/sticky-elements */
+  function Sticky(options) {
+    this.options = $.extend({}, Waypoint.defaults, Sticky.defaults, options)
+    this.element = this.options.element
+    this.$element = $(this.element)
+    this.createWrapper()
+    this.createWaypoint()
+  }
+
+  /* Private */
+  Sticky.prototype.createWaypoint = function() {
+    var originalHandler = this.options.handler
+
+    this.waypoint = new Waypoint($.extend({}, this.options, {
+      element: this.wrapper,
+      handler: $.proxy(function(direction) {
+        var shouldBeStuck = this.options.direction.indexOf(direction) > -1
+        var wrapperHeight = shouldBeStuck ? this.$element.outerHeight(true) : ''
+
+        this.$wrapper.height(wrapperHeight)
+        this.$element.toggleClass(this.options.stuckClass, shouldBeStuck)
+
+        if (originalHandler) {
+          originalHandler.call(this, direction)
+        }
+      }, this)
+    }))
+  }
+
+  /* Private */
+  Sticky.prototype.createWrapper = function() {
+    if (this.options.wrapper) {
+      this.$element.wrap(this.options.wrapper)
+    }
+    this.$wrapper = this.$element.parent()
+    this.wrapper = this.$wrapper[0]
+  }
+
+  /* Public */
+  Sticky.prototype.destroy = function() {
+    if (this.$element.parent()[0] === this.wrapper) {
+      this.waypoint.destroy()
+      this.$element.removeClass(this.options.stuckClass)
+      if (this.options.wrapper) {
+        this.$element.unwrap()
+      }
+    }
+  }
+
+  Sticky.defaults = {
+    wrapper: '<div class="sticky-wrapper" />',
+    stuckClass: 'stuck',
+    direction: 'down right'
+  }
+
+  Waypoint.Sticky = Sticky
+}())
+;
+
+$(function() { 
+	  $('span.pullquote').each(function() { 
+		var $parentParagraph = $(this).parent('p'); 
+		$(this).clone() 
+		  .addClass('pulledquote')
+		  .appendTo($parentParagraph); 
+	  }); 
+    $(".article-details-wrapper").fitText(10, { minFontSize: '7px' });
+    $("span.pulledquote").fitText(4.2, { minFontSize: '13px' });
+    $(".article-sidebar").fitText(2, { minFontSize: '9.5px' });
+    $('h1.article-title').lettering('words')  
+    $( "#article-cover" ).css( "height", function () {
+      return (this.bottom = $('.hero-photo').outerHeight(true)+$('#article-details').outerHeight(true))
+    }
+);
+});
+
+var sticky = new Waypoint.Sticky({
+  element: $('#article-details')[0]
+})
+
+var sticky = new Waypoint.Sticky({
+  element: $('#read-more')[0]
+})
+
+$('#article-images').slick({
+  dots: true,
+  infinite: true,
+  speed: 300,
+  slidesToShow: 1,
+  adaptiveHeight: true
+});
+
+$('#read-more').localScroll();
+
+$( "#btn-menu" ).click(function() {
+  $( "#menu" ).toggleClass( "close" );
+});
+		</script>
 <style>
 .bgimage {
    background-image: url("http://abuselaw.co.uk//wp-content/uploads/2013/01/abss1.jpg");
@@ -40,14 +145,32 @@ description {
 }
 </style></head>
 <body>
-<div class="bgimage">
-        <div class="container">
-		<h2>Child Abuse - including sexual, physical and psychological maltreatment </h2>
-		<h5> By Melissa KO</h5>
-	    </div>
-</div>
+<main>
+  <section id="menu" class="close">
+    <nav role='navigation'>
+      <ul>
+        <li id="btn-menu"><a><i class="fa fa-bars fa-lg"></i></a></li>
+        <li><a href="#">Home</a></li>
+      </ul>
+    </nav>  
+  </section>
 
-<div class="container-fluid">
+  <section id="content">
+    <section id="article-cover">
+      <div class="hero-photo"></div>
+      <div id="article-details">
+        <div class="article-details-wrapper responsive">
+          <div class="article-category"><a href="#">Apple Daily</a></div>
+          <h1 class="article-title">Child Abuse</h1>
+          <div class="article-abstract">Child Abuse - including sexual, physical and psychological maltreatment</div>
+          <div class="article-byline">Presented by: <strong>Melissa Ko</strong></div>
+          <div id="read-more" class="responsive">
+        
+          </div>
+        </div>
+      </div>
+
+    </section><div class="container-fluid">
           Click <span class="bold">Apple Daily</span>! 
             <button type="button" class="btn-info">
 		    <span class="glyphicon glyphicon-search"></span> 
@@ -55,12 +178,14 @@ description {
 	        </button>
 </div>
 
-<br>
-<div class="quote">
+
+
+    <section id="article-body" class="responsive">
+      <div class="article-copy dropcap">
+       <div class="quote">
 <h4>Definitions of child abuse</h4>
 "Child abuse can be categorised into four different types: neglect, emotional abuse, physical abuse and sexual abuse.  A child may be subjected to one or more forms of abuse at any given time."
 </div>
-
 <table align="center">
 			<th colspan="2"><h2 style="color: saddlebrown">比較家暴者施虐原因</h2></th>
 			<tr>
@@ -167,11 +292,29 @@ description {
         </div>
 <br>
 <br>
+      </div>
+    </section>
+    <section id="article-images">
+      <figure>
+        <img src="http://www.thenewsteller.com/wp-content/uploads/2015/08/Child-Abuse.gif"/>
+        <figcaption>Child abuse</figcaption>
+      </figure>
+      <figure>
+        <img src="http://www.drharryfisch.com/wp-content/uploads/2012/02/ptg01850945.jpg"/>
+        <figcaption>Child abuse</figcaption>
+      </figure>
+    </section>
+  </section>
+</main>
+<br>
      
 	 <a href="http://m.appledaily.com.tw/appledaily/article/headline/20150717/36670676"> 【蘋果新聞圖表】關心台灣受虐兒 </a>
+
 </body>
 
 	<footer>
+		
+		
 		<p>Posted by Melissa KO <span class="glyphicon glyphicon-user"></span></p>
 		<p>Contact information: 
 			<button type="button" class="btn-style">
@@ -181,4 +324,3 @@ description {
 			</button>
 		</p>
 	</footer>
-</html>
