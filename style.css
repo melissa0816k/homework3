@@ -1,0 +1,48 @@
+h3 { 
+    color: deepskyblue;
+    font-family: Georgia, serif
+}
+h2 {
+    font-size: 26px
+}
+h6 {
+    font-size:25
+}
+button{ 
+    padding:7px 14px;
+    text-align:center;
+    text-decoration:none;
+    margin:2px 1px
+}
+button.btn-primary {
+    border:3px double black
+}
+img {
+    width:400px;
+    height:270px
+}  
+span.bold{
+    font-size:1em;
+    font-weight:bold;
+    font-variant: small-caps
+}
+button.btn-style{
+    border:3px solid white;
+    border-radius: 35px;
+    background-color:lightgrey
+}
+strong{
+    text-align: center;
+    text-shadow: lightpink 0.3em 0.3em;
+    -webkit-text-fill-color: mediumvioletred
+}
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+* {
+    box-sizing:border-box
+}
+div { 
+    display:block
+}
